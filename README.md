@@ -3,7 +3,7 @@
 <h2>2023년 3월 23일(목)</h2>
  
 리액트 프로젝트 생성방법  
-Npc create-react-app “프로젝트 이름”  
+npx create-react-app “프로젝트 이름”  
 cd “폴더 이름”  
 npm start  
 
