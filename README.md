@@ -35,10 +35,14 @@ Const dlement = (
 - 만일 태그의 속성값을 넣고 싶을 때는 다음과 같이 합니다.  
     
     큰따옴표 사이에 문자열을 넣거나  
-    const element = <div tabIndex="0"></div>  
+    ```javascript
+    const element = <div tabIndex="0"></div>
+    ```  
 
-    중괄호 사이에 자바스크립으 코드를 넣으면 됨!  
-    const element = <img src={user.avatarUrl}></img>  
+    중괄호 사이에 자바스크립트 코드를 넣으면 됨!  
+    ```javascript
+    const element = <img src={user.avatarUrl}></img>
+    ```  
 
 컴포넌트 선언의 첫글자는 대문자로만 해야한다.  
 
