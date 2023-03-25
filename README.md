@@ -5,18 +5,19 @@
 리액트 프로젝트 생성방법  
 Npc create-react-app “프로젝트 이름”  
 cd “폴더 이름”  
-nom start  
+npm start  
 
 JSX는 JavaScript를 확장한 문법이다.  
 
 1. JSX는 객체를 표현합니다.  
 - Babel은 JSX를 React,createElement() 호출로 컴파일합니다.  
-Const dlement = (  
+```
+const element = (  
 	<h1 className= “greeting”>  
 		Hello, world!  
 	</h1>  
 );  
-
+```
 2. JSX의 역할  
 - JSX는 내부적으로 XML/HTML코드로 변환합니다.  
 - React가 createElement함수를 사용하여 자동으로 자바스크립트로 변환해 줍니다.  
@@ -27,7 +28,7 @@ Const dlement = (
 - 코드가 간결해 집니다.(가독성 향상)  
 - Injection Attack이라 불리는 해킹 방법을 방어함으로써 보안에 강합니다.  
 
-4. JSX 사용법  
+4. JSX 사용법
 - 모든 자바스크립트 문법을 지원합니다.  
 - 자바스크립트 문법에 XML과 HTML을 섞어서 사용합니다.  
 - 아래 코드의 2번 라인처럼 섞어서 사용하는 것입니다.  
