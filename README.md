@@ -45,7 +45,7 @@
 3. 컴포넌트의 렌더링
 - 렌더링의 과정은 다음 코드와 같습니다.  
 
-```javascript
+```
     function Welcome(props) {
         return <h1>안녕, {props.name}</h1>;      
     }  
@@ -67,7 +67,7 @@
 2. Props 사용법
 - JSX에서는 key-value쌍으로 props를 구성합니다.  
 
- ```javascript  
+ ```  
     function App(props) {  
         return (  
             <Profile  
