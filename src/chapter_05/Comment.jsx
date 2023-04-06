@@ -8,4 +8,4 @@ function Comment(props) {
     )
 }
 
-expect default Comment;
+export default Comment;
