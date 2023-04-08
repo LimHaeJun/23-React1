@@ -3,6 +3,7 @@
 <h2>2023뇬 4월 6일 (목)</h2>  
 
 5. 컴포넌트 추출
+
 - Comment는 댓글 표시 컴포넌트입니다.  
 - 내부에는 이미지, 이름 댓글과 작성일이 포함되어 있습니다.  
 - 첫 번째로 이미지 부분을 Avatar 컴포넌트로 출력해 보겠습니다.  
@@ -16,11 +17,117 @@ function Avatar(props) {
         />
     );
 }
+```  
+
+- 두 번째로 사용자 정보 부분을 추출합니다.  
+- 컴포넌트 이름은 UserInfo로 합니다. React 컴포넌트 이름은 Camel notatio을 사용합니다.  
+- UserInfo 안에 Avatar 컴포넌트를 넣어서 완성시킵니다.  
+
+```js
+function UserInfo(props) {
+    return (
+        <div className="user-info">
+            <Avatar user={props.user} />
+            <div className="user-info-name">
+                {props.user.name}
+            </div>
+        </div>
+    );
+}
 ```
 
-- 두 번째로 사용자 정보 부분을 추출합니다.
-- 컴포넌트 이름은 UserInfo로 합니다. React 컴포넌트 이름은 Camel
-- 기본적으로는 한 컴포넌트에 하나의 기능을 수행하도록 설계하는 것이 바람직합니다.
+- 추출 후 다시 결합한 UserInfo를 Comment 컴포넌트를 반영하면 다음과 같은 모습이 됩니다.  
+- 처음에 비해서 가족성이 높아진 것을 확인할 수 있습니다.  
+
+```js
+function Comment(props){
+    return (
+        <div className="comment">
+            <UserInfo user={props.author} />
+            <div className="comment-text">
+                {props.text}
+            </div>
+            <div className="comment-date">
+                {formatDate(props.date)}
+            </div>
+        </div>
+    );
+}
+```  
+
+- 기본적으로는 한 컴포넌트에 하나의 기능을 수행하도록 설계하는 것이 바람직합니다.  
+
+요약
+
+- 리액트 컴포넌트
+    - 컴포넌트 기반 구조
+        - 작은 컴포넌트들이 모여서 하나의 컴포넌트를 구성하고 이러한 컴포넌트들이 모여서 전체 페이지를 구성
+        - 개념적으로는 자바스크립트의 함수와 비슷함
+            - 속성들을 입력으로 받아서 그에 맞는 리액트 엘리먼트를 생성하여 리턴함
+
+- Props
+    - Props의 개념  
+        - 리액트 컴포넌트의 속성  
+        - 컴포넌트에 전달할 다양한 정보를 담고 있는 자바스크립트 객체
+    - Props의 특징
+        - 읽기 전용
+        - 리액트 컴포넌트의 props는 바꿀 수 없고, 같은 props가 들어오면 항상 같은 엘리먼트를 리턴해야 함
+    - Props 사용법
+        - JSX를 사용할 경우 컴포넌트에 키-값 쌍 형태로 넣어주면 됨
+        - 문자열 이외에 정수, 변수, 그리고 다른 컴포넌트 등이 들어갈 경우에는 중괄호를 사용해서 감싸주어야 함
+        - JSX를 사용하지 않는 경우에는 createElement() 함수의 두 번째 파리미터로 자바스크립트 객체를 넣어 주면 됨
+        
+
+<h3>State</h3>
+
+1. State란?
+- State는 리액트 컴포넌트의 상태를 의미합니다.
+- 상태의 의미는 정상인지 비정상인지가 아니라 <U>컴포넌트의 데이터</U>를 의미합니다.
+- 정확히는 컴포넌트의 <U>변경가능한 데이터</U>를 의미합니다.
+- State가 변하면 다시 렌더링이 되기 때문에 렌더링과 관련된 값만 state에 포함시켜야 합니다.
+
+2. state의 특징
+- 리액트 만의 특별한 형태가 아닌 단지 <U>자바스크립트 객체</U>일 뿐입니다.
+- 예의 LikeButton은 class 컴포넌트입니다.
+- constructor는 생성자이고 그 안에 있는
+- this.state가 현 컴포넌트의 state입니다.
+```js
+class LikeButton extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            liked: false
+        };
+    }
+}
+```
+
+- 함수형에서는 useState()라는 함수를 사용합니다.  
+- state는 변경은 가능하다고 했지만 직접 수정해서는 안됩니다.  
+- state를 변경하고자 할 때는 <U>setState()함수를 사용<U>합니다.  
+
+```js
+// state를 직접 수정 (잘못된 사용법)
+this. state = {
+    name: 'Inje'
+};
+
+// setState 함수를 통한 수정 (정상적인 사용법)
+this.setState({
+    name: 'Inje'
+});
+```  
+
+<h3>생명주기에 대해 알아보기</h3>
+
+- 생명주기는 컴포넌트의 생성 시점, 사용 시점, 종료 시점을 나타내는 것입니다.
+- constructor가 실행되면서 컴포넌트가 생성됩니다.
+- 생성 직후 componentDidMount() 함수가 호출됩니다.
+- 컴포넌트가 소멸하기 전까지 여러 번 랜더링 합니다.
+- 렌더링은 props, setState(), forceUpdate()에 의해 상태가 변경되면 이루어집니다.
+- 렌더링이 끝나면 componentDidUpdate() 함수가 호출됩니다.
+- 마지막으로 컴포넌트가 언마운트 되면 componentWillUnmount() 함수가 호출됩니다.
 
 <h2>2023년 3월 30일(목)</h2>
 
