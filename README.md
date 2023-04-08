@@ -8,7 +8,7 @@
 - 내부에는 이미지, 이름 댓글과 작성일이 포함되어 있습니다.  
 - 첫 번째로 이미지 부분을 Avatar 컴포넌트로 출력해 보겠습니다.  
 
-```
+```js
 function Avatar(props) {
     return (
         <img className="avatar"
