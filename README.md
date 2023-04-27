@@ -1,5 +1,203 @@
 <h1>임해준</h1>
 
+<h2>2023년 4월 27일 (목)</h2>
+
+<h3>이벤트 핸들러</h3>
+
+1. 이벤트 처리하기
+
+- DOM에서 클릭 이벤트를 처리하는 예제 코드.
+
+```js
+    <button onclick="activate()">
+        Activate
+    </button>
+```
+
+- React에서 클릭 이벤트 처리하는 예제 코드
+
+```js
+    <button onClick={activate}>
+        Activate
+    </button>
+```
+- 둘의 차이점은
+    1. 이벤트 이름이 onclick에서 onClick으로 변경.(Camel case)
+    2. 전달하려는 함수는 문자열에서 함수 그대로 전달.
+
+- 이벤트가 발생했을 때 해당 이벤트를 처리하는 함수를 "이벤트 핸들러(Event Handler)" 라고 합니다. 또는 이벤트가 발생하는 것을 계속 듣고 있다는 의미로 "이벤트 리스너(Event Listener)"라고 부르기도 합니다.
+
+2. Arguments 전달하기
+
+- 함수를 정의할 때는 파라미터(Parameter) 혹은 매개변수, 함수를 사용할 때는 아귀먼트(Argument) 혹은 인수라고 부릅니다.  
+- 이벤트 핸들러에 매개변수를 전달해야 하는 경우도 많습니다.
+
+```js
+    <button onClick={(event) => this.deleteItem(id, event)}>삭제하기</button>
+    <button onClick={this.deleteItem.bind(this.id)}>삭제하기</button>
+```
+
+- 위의 코드는 모두 동일한 역할을 하지만 하나는 화살표 함수를, 다른 하나는 bind를 사용했습니다.  
+- event라는 매개변수는 리액트의 이벤트 객체를 의미합니다.  
+- 두 방법 모두 첫 번째 매개변수는 id이고 두 번째 매개변수로 event가 전달됩니다.  
+- 첫 번째 코드는 명시적으로 event를 매개변수로 넣어 주었고, 두 번째 코드는 id 이후 두 번째 매개변수로 event가 자동 전달됩니다. (이 방법은 클래스형에서 사용하는 방법입니다.)  
+- 함수형 컴포넌트에서 이벤트 핸들러에 매개변수를 전달할 때는 아래 코드와 같이 합니다.  
+
+```js
+    function MyButton(props) {
+        const handleDelete = (id, event) => {
+            console.log(id, event.target);
+        };
+
+        return(
+            <button onClick={(event) => handleDelete(1, event)}>삭제하기</button>
+        );
+    }
+```
+
+<b>요약</b>  
+
+- 이벤트린?
+    - 사용자가 버튼을 클릭하는 등의 사건을 의미
+
+- 이벤트 처리하기
+    - DOM의 이벤트
+        - 이벤트의 이름을 모두 소문자로 표기
+        - 이벤트를 처리할 함수를 문자열로 전달
+    - 리액트의 이벤트
+        - 이벤트의 이름을 카멜 표기법으로 표기
+        - 이벤트를 처리할 함수를 그대로 전달
+    - 이벤트 핸들러
+        - 이벤트가 발생했을 때 해당 이벤트를 처리하는 함수
+        - 이벤트 리스너라고 부르기도 함
+        - 클래스 컴포넌트
+            - 클래스의 함수로 정의하고 생성자에서 바인딩해서 사용
+            - 클래스 빌드 문법도 사용가능
+        - 함수 컴포넌트
+            - 함수 안에 함수로 정의하거나 arrow function을 사용해서 정의
+- Arguments 전달하기
+    - Argument란?
+        - 함수에 전달할 데이터
+        - 파라미터 또는 매개변수라고 부르기도 함
+    - 클래스 컴포넌트
+        - arrow function(화살표 함수)를 사용하거나 Function.prototype.bind를 사용해서 전달  
+    - 함수 컴포넌트
+        - 이벤트 핸들러 호출 시 원하는 순서대로 매개변수를 넣어서 사용  
+
+<h3>조건부 렌더링</h3>  
+
+1. 조건부 렌더링이란?
+    - 여기서 조건이란 우리가 알고 있는 조건문의 조건입니다.
+    ```js
+        function Greeting(props) {
+            const IsLoggedIn = props.isLoggedIn;
+            if (isLoggedIn) {
+                return <UserGreeting />;
+            }
+            return <GuestGreeting />;
+        }
+    ```
+
+    - props로 전달 받은 isLoggedIn이 true이면 <UserGreeting />을, false면 <GuestGreeting />을 return합니다.  
+    - 이와 같은 렌더링을 조건부 렌더링이라고 합니다.  
+
+2. 엘리먼트 변수  
+    - 렌더링해야 될 컴포넌트를 변수처럼 사용하는 방법이 엘리먼트 변수입니다.  
+    - 272페이지 코드처럼 state에 따라 button 변수에 컴포넌트의 객체를 저장하여 return문에서 사용하고 있습니다.  
+        ```js
+            let button;
+            if (isLoggedIn) {
+                button = <LogoutButton onClick={handleLogoutClick} />;
+            } else {
+                button = <LogInButton onClick={handleLogInClick} />;
+            }
+
+            return (
+                <div>
+                    <Greeting IsLoggedIn={isLoggedIn} />
+                    {button}
+                </div>
+            )
+        ```  
+
+3. 인라인 조건  
+
+- 필요한 곳에 조건문을 직접 넣어 사용하는 방법입니다.   
+
+    1. 인라인 if
+        - if문을 직접 사용하지 않고, 동일한 효과를 내기위해 && 논리 연산자를 사용합니다.  
+        - &&는 and 연산자로 모든 조건이 참일때만 참이 됩니다.  
+        - 첫 번째 조건이 거짓이면 두 번째 조건은 판단할 필요가 없습니다. 단축평가  
+
+        ```js
+            true && expression -> expression
+            false && expression -> false
+
+        {unreadMessages.length > 0 &&
+            <h2>
+                현재 {unreadMessages.length}개의 읽지 않은 메시지가 있습니다.
+            </h2>
+        }
+        ```
+        - 판단만 하지 않는 것이고 결과 값은 그대로 리턴됩니다.  
+    2. 인라인 if-else
+        - 삼항 연산자를 사용합니다. (조건문 ? 참일 경우 : 거짓일 경우)  
+        - 문자열이나 엘리먼트를 넣어서 사용할 수도 있습니다.
+
+    ```js
+        function UserStatus(props) {
+            return (
+                <div>
+                    이 사용자는 현재 <b>{props.isLoggedIn ? '로그인' : '로그인하지 않은'}</b> 상태입니다.  
+                </div>
+            )
+        }
+                <div>
+                    <Greeting isLoggedIn={isLoggedIn} />  
+                    {isLoggedIn
+                        ? <LogoutButton onClick={handleLogoutClick} />
+                        : <LoginButton onClick={handleLoginClick} />
+                     }
+                </div>
+    ```    
+
+4. 컴포넌트 렌더링 막기
+    - 컴포넌트를 렌더링하고 싶지 않을 때에는 null을 리턴합니다.
+
+    ```js
+        function WarningBanner(props) {
+            if (!props.warning) {
+                return null;
+            }
+
+            return (
+                <div>경고!</div>
+            );
+        }
+    ```
+6. 마치며
+
+<b> 요약 </b>  
+
+- 조건부 렌더링
+    - 조건에 따라 렌더링의 결과가 달라지도록 하는 것
+- 엘리먼트 변수
+    - 리액트 엘리먼트를 변수처럼 저장해서 사용하는 방법
+- 인라인 조건
+    - 조건문을 코드 안에 집어넣는 것
+    - 인라인 If
+        - If문을 필요한 곳에 직접 집어넣어서 사용하는 방법  
+        - 논리 연산자 &&를 사용 (AND 연산)  
+        - 앞에 나오는 조건문이 true일 경우에만 뒤에 나오는 엘리먼트를 렌더링
+    - 인라인 If-Else
+        - If-Else문을 핑요한 곳에 직접 집어 넣어서 사용하는 방법
+        - 삼항 연산자 ?를 사용
+        - 앞에 나오는 조건문이 true면 첫 번째 항목을 리턴, false면 두 번째 항목을 리턴
+        - 조건에 따라 각기 다른 엘리먼트를 렌더링하고 싶을 때 사용
+    - 컴포넌트 렌더링 막기
+        - 리액트에서는 null을 리턴하면 렌더링되지 않음
+        - 특정 컴포넌트를 렌더링하고 싶지 않을 경우 null을 리턴하면 됨
+
 <h2>2023년 4월 13일 (목)</h2>  
 
 <h3>요약</h3>
