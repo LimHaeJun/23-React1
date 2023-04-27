@@ -1,19 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
+//import App from './App';
 import reportWebVitals from './reportWebVitals';
-import Clock from './chapter_04/clock'; // clock import
-import CommentList from './chapter_05/CommentList';
-import NotificationList from './chapter_06/NotificationList';
-import Accomodate from './chapter_07/Accommodate';
+// import Clock from './chapter_04/clock'; // clock import
+// import CommentList from './chapter_05/CommentList';
+// import NotificationList from './chapter_06/NotificationList';
+// import Accomodate from './chapter_07/Accommodate';
+//import ConfirmButton from'./chapter_08/ConfirmButton';
+import LandingPage from './chapter_09/LandingPage';
 
 //const root = ReactDOM.createRoot(document.getElementById('root'))
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Accomodate />
+    <LandingPage />
   </React.StrictMode>
 );
 
