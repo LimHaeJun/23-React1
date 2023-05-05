@@ -1,5 +1,223 @@
 <h1>임해준</h1>
 
+<h2>2023년 5월 4일 (목)</h2>
+
+<h3>리스트와 키</h3>
+
+1. 리스트와 키란 무엇인가?
+
+- 리스트는 자바스크립트의 변수나 객체를 하나의 변수로 묶어 놓은 배열과 같은 것입니다.
+- 키는 각 객체나 아이템을 구분할 수 있는 고유한 값을 의미합니다.
+- 리액트에서는 배열과 키를 사용하는 반복되는 다수의 엘리먼트를 쉽게 렌더링할 수 있습니다.
+
+2. 여러 개의 컴포넌트 렌더링하기
+
+- 같은 컴포넌트를 화면에 반복적으로 나타내야 할 경우 배열에 들어있는 엘리먼트를 map()함수를 이용하여 렌더링합니다.
+- 다음은 numbers 배열에 들어있는 각각의 요소를 map()를 이용하여 하나씩 추출하여, 2를 곱한후 doubled라는 배열에 다시 넣는 코드입니다.  
+
+```js
+    const doubled = numbers.map((number) => number * 2);
+```
+
+- 다음은 리액트에서 map()함수를 사용한 예제입니다.
+
+```js
+    const numbers = [1, 2, 3, 4, 5];
+    const listItems = numbers.map((number) =>   
+        <li>{number}</li>);
+```
+
+- 이 코드는 numbers의 요소에 2를 곱하는 대신 <li>태그를 결합해서 리턴하고 있습니다.
+- 리턴된 listItems는 <ul>태그와 결합하여 렌더링 됩니다.
+```js
+    ReactDom.render(
+        <ul>
+            <li>{1}</li>
+            <li>{2}</li>
+            <li>{3}</li>
+            <li>{4}</li>
+            <li>{5}</li>
+        </ul>,
+        document.getElementById('root')
+    );
+```
+
+3. 기본적인 리스트 컴포넌트
+- 이 컴포넌트는 props로 받은 숫자를 numbers로 받아 리스트로 렌더링 해줍니다.
+```js
+    function NumberList(props) {
+        const { numbers } = props;
+
+        const listItems = numbers.map((number) =>
+            <li>{number}</li>
+        );
+
+        return (
+            <ul>{listItems}</ul>
+        );
+    }
+
+    const numbers = [1, 2, 3, 4, 5];
+    ReactDom.render(
+        <NumberList numbers={numbers} />,
+        document.getElementById('root')
+    );
+```
+- 이 코드를 실행하면 "리스트 아이템에 무조건 키가 있어야 한다"는 경고 문구가 나옵니다.
+- 경고 문구가 나오는 이유는 각각의 아이템에 key props가 없기 때문입니다.
+
+4. 리스트의 키에 대해 알아보기
+- 리스트에서의 키는 "리스트에서 아이템을 구별하기 위한 고유한 문자열"입니다.
+- 이 키는 리스트에서 어떤 아이템이 변경, 추가 또는 제거되었는지 구분하기 위해 사용합니다.
+- 키는 같은 리스트에 있는 엘리번트 사이에서만 고유한 값이면 됩니다. (다른 리스트끼리는 같은 값이 들어가도 상관없음)
+
+5. 출석부 출력하기
+    ```js
+         import React from "react";
+
+const students = [
+    {   
+        id: 1,  //리액트에서 키값은 어떤 아이템이 변경, 추가 또는 제거되었는지 구분하기 위해 사용
+        name: "Inje", // 리액트의 배열은 C언어의 배열과는 다르게 
+                         한가지 값이 아니라 여러 속성을 넣을수  있다.
+    },
+    {   
+        id: 2,
+        name: "Steve",
+    },
+    {   
+        id: 3,
+        name: "Bill",
+    },
+    {   
+        id: 4,
+        name: "Bill",
+    },
+];
+
+function AttendanceBook(props) {
+    return (
+        <ul>
+            {students.map((student, index) => {
+                return <li key={student.id}>{student.name}</li>;
+            })}
+        </ul>
+    );
+}
+
+export default AttendanceBook;
+    ```
+
+6. 요약
+
+    - 리스트
+        - 같은 아이템을 순서대로 모아놓은 것
+    - 키
+        - 각 객체나 아이템을 구분할 수 있는 고유한 값
+    - 여러 개의 컴포넌트 렌더링
+        - 자바스크립트 배열의 map()함수를 사용
+            - 배열에 들어있는 각 변수에 어떤 처리를 한 뒤 결과(엘리먼트)를 배열로 만들어서 리턴함
+            - map()함수 안에 있는 엘리먼트는 꼭 키가 필요함
+    - 다양한 키값의 사용법
+        - 숫자 값을 사용
+            - 배열에 중복된 숫자가 들어있다면 키값도 중복되기 때문에 고유해야 한다는 키값의 조건이 충족되지 않음
+        - id를 사용
+            - id의 의미 자체가 고유한 값이므로 키값으로 사용해야 적합
+            - id가 있는 경우에는 보통 id값을 키값으로 사용
+        - 인덱스를 사용
+            - 배열에서 아이템의 순서가 바뀔수 있는 경우에는 키값으로 인덱스를 사용하는 것을 권장하지 않음
+            - 리액트에서는 키를 명시적으로 넣어 주지 않으면 기본적으로 이 인덱스 값을 키값으로 사용
+
+<h3>폼</h3>
+
+1. 폼이란 무엇인가?
+- 폼은 일반적으로 사용자로부터 입력을 받기위한 양식에서 많이 사용됩니다.
+
+```js
+    <form>
+        <label>
+            이름:
+            <input type="text" name="name"/>       
+        </label>
+        <button type="submit">제출<button>
+    </form>
+```
+
+2. 제어 컴포넌트
+- 제어 컴포넌트는 사용자가 입력한 값에 접근하고 제어할 수 있도록 해주는 컴포넌트입니다.  
+- 다음 코드는 사용자의 이름을 입력받는 HTML폼을 리액트 제어 컴포넌트로 만든 것입니다.  
+
+```js
+    function Nameform(props) {
+        const [value, setValue] = useState("");
+
+        const handleChange = (event) => {
+            setValue(event.target.value);
+        }
+
+        const handleSubmit = (event) => {
+            alert('입력한 이름: ' + value);
+            event.preventDefault();
+        }
+
+        return (
+            <form onSubmit={handleSubmit}>
+                <label>
+                    이름:
+                    <input type="text" value={value} onChange={handleChange} />
+                </label>
+                <button type="submit">제출</button>
+            </form>
+        )
+    }
+```
+3. textarea 태그
+- HTML에서는 <textarea>의 children으로 텍스트가 들어가는 형태입니다.  
+```html
+    <textarea>
+        안녕하세요, 여기에 이렇게 텍스트가 들어가게 됩니다.
+    </textarea>
+```
+
+- 리액트에서는 state를 통해 태그의 value라는 attribute를 변경하여 텍스트를 표시합니다.  
+
+```js
+    function RequestForm(props) {
+        const [value, setValue] = useState('요청사항을 입력하세요.');
+    }
+```
+
+4. 요약
+    - 제어 컴포넌트
+        - 사용자가 입력한 값에 접근하고 제어할 수 있게 해주는 컴포넌트
+        - 값의 리액트의 통제를 받는 입력 폼 엘리먼트
+    - <input type="text> 태그
+        - 한 줄로 텍스트를 입력받기 위한 HTML 태그
+        - 리액트에서는 value라는 attribute로 입력된 값을 관리
+    - <textarea> 태그
+        - 여러 줄에 걸쳐서 텍스트를 입력받기 위한 HTML태그
+        - 리액트에서는 value라는 attribute로 입력된 값을 관리
+    - <select> 태그
+        - 드롭다운 목록을 보여주기 위한 HTML 태그
+        - 여러 가지 옵션 중에서 하나 또는 여러 개를 선택할 수 있는 기능을 제공
+        - 리액트에서는 value라는 attribute로 선택된 옵션의 값을 관리
+    - <input type="file"> 태그
+        - 디바이스의 저장 장치로부터 사용자가 하나 또는 여러 개의 파일을 선택할 수 있게 해주는 HTML 태그
+        - 서버로 파일을 업로드하거나 자바스크립트의 File API를 사용해서 파일을 다룰 때 사용
+        - 읽기 전용이기 때문에 리액트에서는 비제어 컴포넌트가 됨
+    - 여러 개의 입력 다루기
+        - 컴포넌트에 여러 개의 state를 선언하여 각각의 입력에 대해 사용하면 됨
+    - Input Null Value
+        - value prop은 넣되 자유롭게 입력할 수 있게 만들고 싶을 경우, 값에 underfined 또는 null을 넣으면 됨
+
+<h3>State 끌어올리기</h3>
+
+1. Shared State
+- 어떤 컴포넌트의 state에 있는 데이터를 여러 개의 하위 컴포넌트에서 공통적으로 사용하는 경우
+
+2. 하위 컴포넌트에서 State 공유하기
+- 하위 컴포넌트의 state를 공통된 부모 컴포넌트롤 올려서 shared state를 적용해야 합니다. state를 상위 컴포넌트로 올린다는 것을 State 끌어올리기(Lifting State Up)라고 표현합니다.
+
 <h2>2023년 4월 27일 (목)</h2>
 
 <h3>이벤트 핸들러</h3>
