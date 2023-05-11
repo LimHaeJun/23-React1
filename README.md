@@ -1,5 +1,108 @@
 <h1>임해준</h1>
 
+<h2>2023년 5월 11일 (목)</h2>
+
+<h3>State 끌어올리기</h3>
+
+2. 하위 컴포넌트에서 State 공유하기
+
+- 온도 변환 함수 작성하기
+    - 아래 함수는 화씨 온도를 섭씨온도로 변환하는 함수와 섭씨온도를 화씨온도로 변환하는 함수입니다.
+
+```js
+    function toCelsius(fahrenheit) {
+        return (fahrenheit - 32 ) * 5 / 9;
+    }
+    function toFahrenheit(celsius) {
+        return (celsius * 9 / 5) - 32    
+    }
+```
+
+- 이렇게 만든 함수를 호출하는 함수입니다.
+
+```js
+    function tryConvert(temperature, convert) {
+        const input = parseFloat(temperature);
+        if (Number.isNaN(input)) {
+            return "";
+        }
+        const output = convert(input);
+        const rounded = Math.round(output * 1000) / 1000;
+        return rounded.toString();
+    }
+```
+
+- tryConvert()함수는 온도 값과 변환하는 함수를 파라미터로 받아서 값을 변환시켜 리턴해주는 함수입니다. 만약 숫자가 아닌 값을 입력하면 empty string을 리턴하도록 예외 처리를 했습니다. 이 함수를 실제로 사용하는 방법은 아래와 같습니다.
+
+```js
+    tryConvert('abc', toCelsius) //empty String을 리턴
+    tryConvert('10.22', toFahrenheit) // `50.396'을 리턴
+```
+
+4. Shared State 적용하기
+- 하위 컴포넌트의 state를 공통된 부모 컴포넌트로 올려서 shared state를 적용해야 합니다.
+- 이것을 State 끌어올리기(Lifting State Up)라고 표현합니다.
+
+```js
+    return (
+        ∙∙∙
+            // 변경 전 : <input value={temperature} onChange={handleChange} />
+            <input value={props.temperature} onChange={handleChange}>
+        ∙∙∙
+    )
+```
+- 이렇게 하면 온도 값을 컴포넌트의 state에서 가져오는 것이 아닌 props를 통해서 가져오게 됩니다.
+- 컴포넌트의 state를 사용하지 않게 되기 때문에 handleChange() 함수를 다음과 같이 변경합니다.
+
+```js
+    const handleChange = (event) => {
+        // 변경 전: setTemperature(event.target.value);
+        props.onTemperatureChange(event.target.value);
+    }
+```
+
+- 이제 사용자가 온도 값을 변경할 때 마다 props에 있는 onTemperatureChange() 함수를 통해 변경된 온도 값이 상위 컴포넌트로 전달됩니다.  
+- 최종적으로 완성된 TemperatureInput 컴포넌트의 모습은 아래와 같습니다.  
+```js
+    function TemperatureInput(props) {
+    const handleChange = (event) => {
+        props.onTemperatureChange(event.target.value);
+    };
+
+    return (
+        <fieldset>
+            <legend>
+                온도를 입력해주세요(단위:{scaleNames[props.scale]});
+            </legend>
+            <input value={props.temperature} onChange={handleChange} />
+        </fieldset>
+    )
+}
+```
+
+5. 컴포넌트 변경하기  
+
+```js
+    return (
+        <div>
+            <TemperatureInput
+                scale="c"
+                temperature={celsius}
+                onTemperatureChange={handleCelsiusChange}
+            />
+            <TemperatureInput
+                scale="f"
+                temperature={fahrenheit}
+                onTemperatureChange={handleFahrenheitChange}
+            />
+            <BoilingVerdict celsius={parseFloat(celsius)} /> 
+        </div>
+                            // parseFloat: 문자열을 Float로 변환
+    );
+```
+
+- 컴포넌트가 state에 값을 갖고 있는 것이 아니라 공통된 상위 컴포넌트로 올려서 공유하는 방법을 사용하면 리액트에서 더욱 간결하고 효율적인 개발을 할 수 있습니다.
+
 <h2>2023년 5월 4일 (목)</h2>
 
 <h3>리스트와 키</h3>
