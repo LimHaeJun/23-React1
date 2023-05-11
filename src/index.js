@@ -8,14 +8,15 @@ import reportWebVitals from './reportWebVitals';
 // import NotificationList from './chapter_06/NotificationList';
 // import Accomodate from './chapter_07/Accommodate';
 //import ConfirmButton from'./chapter_08/ConfirmButton';
-import LandingPage from './chapter_09/LandingPage';
-
+//import LandingPage from './chapter_09/LandingPage';
+//import AttendanceBook from './chapter_10/AttendanceBook';
 //const root = ReactDOM.createRoot(document.getElementById('root'))
-
+//import SignUp from './chapter_11/SignUp';
+import Calculator from './chapter_12/Calculator';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <LandingPage />
+    <Calculator />
   </React.StrictMode>
 );
 
